@@ -173,7 +173,7 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:v
 .pick-label{font:500 13px var(--body);color:var(--muted);margin:0 0 8px}
 .tiers{list-style:none;padding:0;margin:12px 0 14px;display:grid;gap:6px;font-size:14px}
 .tiers li{display:flex;gap:10px;align-items:center;color:var(--muted)}
-.tiers li b{font:500 12px var(--mono);min-width:64px;color:var(--ink)}
+.tiers li b{font:500 12px var(--mono);min-width:88px;color:var(--ink)}
 .tiers li.got{color:var(--green)} .tiers li.got b{color:var(--green)}
 .bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:10px}
 .bar i{display:block;height:100%;background:var(--yellow)}
@@ -183,6 +183,8 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:v
 .sticky .hero-form input{padding:10px 12px}
 .sticky .err-msg,.sticky .pick{display:none}
 .sticky .done{display:none}
+.joined .micro{display:none}
+@media (max-width:860px){body{padding-bottom:84px}}
 [data-v="a"] .vb,[data-v="b"] .va{display:none}
 @media (max-width:860px){.hero .vwrap{order:-1}.hero{padding-top:8px;gap:20px}}
 @media (max-width:480px){.hero-form{flex-direction:column}.sticky .hero-form{flex-direction:row}.sticky span{display:none}.lede{font-size:16px}}
@@ -369,7 +371,7 @@ function doneCard(){
     h("div",{class:"pos"},"#"+me.position),
     h("p",{style:"margin-top:0"},`in line for ${cname}. Each friend who joins with your link moves you up 5 spots.`),
     h("ul",{class:"tiers"},...TIERS.map(([k,label])=>h("li",{class:n>=k?"got":""},h("b",{},`${k} friend${k>1?"s":""}`),(n>=k?"✓ ":"")+label))),
-    next?h("div",{style:"font-size:13px;color:var(--muted)"},`${n} of ${next[0]} friends joined`,h("div",{class:"bar"},h("i",{style:`width:${Math.min(100,n/next[0]*100)}%`}))):null,
+    next?h("div",{style:"font-size:13px;color:var(--muted)"},`${n} of ${next[0]} friend${next[0]>1?"s":""} joined`,h("div",{class:"bar"},h("i",{style:`width:${Math.min(100,n/next[0]*100)}%`}))):null,
     h("div",{class:"share",style:"margin-top:14px"},shareBtn,link,copy));
 }
 function profileForm(){
@@ -404,6 +406,7 @@ async function join(email,slot){
 function renderSlots(){
   document.querySelectorAll(".signup-slot").forEach(slot=>{
     if(me){
+      document.body.classList.add("joined");
       slot.replaceChildren(slot.dataset.slot==="sticky"?"":doneCard());
       if(slot.dataset.slot==="join"&&!me.profiled)slot.append(profileForm());
       return;
