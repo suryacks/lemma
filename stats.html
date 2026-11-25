@@ -61,7 +61,7 @@ function table(title,rows,cols){
 function chart(d){
   const days=d.days.slice(-21),W=700,H=170,pad=24;
   const mx=Math.max(1,...days.map(x=>d.views_by_day[x]||0));
-  const bw=(W-pad*2)/Math.max(days.length,1);
+  const bw=Math.min(56,(W-pad*2)/Math.max(days.length,1));
   const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.setAttribute("viewBox",`0 0 ${W} ${H}`);svg.setAttribute("preserveAspectRatio","none");
   let inner="";
   days.forEach((day,i)=>{const v=d.views_by_day[day]||0,s=d.signups_by_day[day]||0,x=pad+i*bw;
