@@ -247,7 +247,7 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:v
   <div class="faq">
     <details><summary>Which courses will you cover?</summary><p>We're starting with math-heavy college courses: calculus, linear algebra, differential equations, probability and physics. Tell us your course after you join and we'll prioritize the most-requested ones.</p></details>
     <details><summary>Are the lessons accurate?</summary><p>Every lesson script is checked for correctness, and we work each example by hand before it ships. If you spot a mistake, tell us and we fix it.</p></details>
-    <details><summary>How long are lessons?</summary><p>The samples run about 3 minutes. Bigger topics are split into chapters, so you can jump straight to the part you need.</p></details>
+    <details><summary>How long are lessons?</summary><p>The samples run under 3 minutes. Bigger topics are split into chapters, so you can jump straight to the part you need.</p></details>
     <details><summary>How much will it cost?</summary><p>Free during early access. At launch we expect a free tier, Pro at $19.99/month or $119.99/year, and a $9.99 finals-week pass. Early members can lock in a founding price of $49 for the first year.</p></details>
     <details><summary>What happens when I join?</summary><p>You get one email when lessons for your course are ready. No spam, and you can ask to be removed anytime.</p></details>
   </div>
@@ -278,15 +278,15 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:v
 
 <script>
 const LESSONS=[
- {id:"l1",title:"The Gradient: Which Way Is Uphill?",dur:262.5,ch:[["The foggy hillside",0],["Level curves",40.2],["Slopes along the axes",58.1],["Directional derivatives",80.6],["Why the gradient points uphill",120.1],["Gradients cross level curves",158.1],["Worked example",179.3],["Exam mistakes",217.5],["Recap",241.6]],
+ {id:"l1",title:"The Gradient: Which Way Is Uphill?",dur:175.2,ch:[["The foggy hillside",0.0],["Level curves",24.4],["Slopes along the axes",36.1],["Directional derivatives",49.3],["Why the gradient points uphill",77.2],["Gradients cross level curves",102.0],["Worked example",118.6],["Exam mistakes",144.3],["Recap",161.3]],
   quiz:[["For f(x,y) = x² + y², what is ∇f at (1, 2)?",["⟨1, 2⟩","⟨2, 4⟩","⟨2, 2⟩","5"],1,"∇f = ⟨2x, 2y⟩, so at (1, 2) it is ⟨2, 4⟩."],
         ["How does ∇f sit relative to the level curves of f?",["Tangent to them","Perpendicular to them","Parallel to the x-axis","It depends on f"],1,"Along a level curve the slope is 0, so ∇f · (tangent) = 0."],
         ["For f = x² + 3y² at (1, 1), what is the largest possible rate of change?",["6","8","√40","40"],2,"It equals |∇f(1,1)| = |⟨2, 6⟩| = √40 ≈ 6.32."]]},
- {id:"l2",title:"Lagrange Multipliers: Optimizing on a Constraint",dur:237.8,ch:[["Optimizing with a constraint",0],["The problem",20.8],["Level curves of f",39.3],["The kissing point",56.5],["Parallel gradients",87.6],["The Lagrange condition",107.5],["Solving the system",121.8],["Checking candidates",157.7],["What lambda means",174.8],["Exam mistakes",195.2],["Recap",215.7]],
+ {id:"l2",title:"Lagrange Multipliers: Optimizing on a Constraint",dur:156.1,ch:[["Optimizing with a constraint",0.0],["The problem",12.3],["Level curves of f",25.1],["The kissing point",37.2],["Parallel gradients",57.2],["The Lagrange condition",69.3],["Solving the system",77.2],["Checking candidates",102.5],["What lambda means",114.6],["Exam mistakes",128.4],["Recap",142.1]],
   quiz:[["Which condition do Lagrange multipliers solve?",["∇f = 0","∇f = λ∇g with g = c","f = λg","∇g = 0"],1,"At a constrained optimum the gradients are parallel, on the constraint."],
         ["What is the maximum of xy on the circle x² + y² = 2?",["2","1","√2","1/2"],1,"The max of xy on x² + y² = c is c/2, so here it is 1, at (1, 1)."],
         ["Why are the gradients parallel at the optimum?",["The level curve of f is tangent to the constraint","f is linear","λ is always 1","The constraint is a circle"],0,"Tangent curves share a normal direction, and gradients are normals."]]},
- {id:"l3",title:"Polar Double Integrals and the Gaussian Integral",dur:226.3,ch:[["An integral with no antiderivative",0],["Squaring the integral",25.1],["A perfectly round bump",50.5],["The polar area element",70.5],["Computing it",117.6],["Checking with a disk",159.9],["Exam mistakes",181.6],["Recap",204.6]],
+ {id:"l3",title:"Polar Double Integrals and the Gaussian Integral",dur:157.8,ch:[["An integral with no antiderivative",0.0],["Squaring the integral",16.7],["A perfectly round bump",34.8],["The polar area element",48.0],["Computing it",82.1],["Checking with a disk",113.3],["Exam mistakes",127.8],["Recap",144.0]],
   quiz:[["In polar coordinates, dA equals:",["dr dθ","r dr dθ","r² dr dθ","dθ / r"],1,"The small polar piece has sides dr and r dθ."],
         ["What is ∬ 1 dA over the unit disk, computed in polar?",["2π","π","1","π/2"],1,"∫₀^{2π} ∫₀^1 r dr dθ = 2π · 1/2 = π, the disk's area."],
         ["What θ bounds describe the upper half of a disk?",["[0, 2π]","[0, π/2]","[0, π]","[−π, π]"],2,"The upper half runs from angle 0 to π."]]}
