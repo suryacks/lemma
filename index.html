@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>
+(function(){var q=new URLSearchParams(location.search),v=q.get("v"),V=["a","b"];
+try{if(V.indexOf(v)<0)v=localStorage.getItem("lemma-v");if(V.indexOf(v)<0){v=V[Math.random()*V.length|0]}localStorage.setItem("lemma-v",v)}catch(e){if(V.indexOf(v)<0)v="a"}
+window.LEMMA_V=v;document.documentElement.dataset.v=v})();
+</script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Lemma: see the math move</title>
 <meta name="description" content="Narrated, animated math lessons for any topic in your course, with a quiz after every lesson. Watch three free sample lessons and join the early-access list.">
@@ -161,7 +166,26 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:v
 .faq details{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:8px}
 .faq summary{cursor:pointer;font-weight:500}
 .faq p{color:var(--muted);margin:8px 0 0;font-size:15px}
-@media (max-width:480px){.hero-form{flex-direction:column}.sticky span{display:none}}
+
+.course-pick{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.course-pick button{all:unset;cursor:pointer;font:13px var(--body);border:1px solid var(--line);border-radius:99px;padding:6px 12px;color:var(--ink);background:var(--panel)}
+.course-pick button[aria-pressed="true"]{border-color:var(--yellow);color:var(--bg);background:var(--yellow)}
+.pick-label{font:500 13px var(--body);color:var(--muted);margin:0 0 8px}
+.tiers{list-style:none;padding:0;margin:12px 0 14px;display:grid;gap:6px;font-size:14px}
+.tiers li{display:flex;gap:10px;align-items:center;color:var(--muted)}
+.tiers li b{font:500 12px var(--mono);min-width:64px;color:var(--ink)}
+.tiers li.got{color:var(--green)} .tiers li.got b{color:var(--green)}
+.bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;background:var(--yellow)}
+.refnote{background:var(--raised);border:1px solid var(--green);color:var(--green);border-radius:8px;padding:8px 12px;font-size:14px;margin:0 0 12px}
+.refnote[hidden]{display:none}
+.sticky .hero-form{margin:0;flex:1;max-width:520px}
+.sticky .hero-form input{padding:10px 12px}
+.sticky .err-msg,.sticky .pick{display:none}
+.sticky .done{display:none}
+[data-v="a"] .vb,[data-v="b"] .va{display:none}
+@media (max-width:860px){.hero .vwrap{order:-1}.hero{padding-top:8px;gap:20px}}
+@media (max-width:480px){.hero-form{flex-direction:column}.sticky .hero-form{flex-direction:row}.sticky span{display:none}.lede{font-size:16px}}
 </style>
 </head>
 <body>
@@ -174,20 +198,17 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:v
   <section class="hero" id="top">
     <div>
       <div class="eyebrow">Animated math lessons · free early access</div>
-      <h1>See the math <em>move</em>, then prove you get it.</h1>
-      <p class="lede">Type any topic from your course and get a narrated, animated lesson that builds the intuition step by step, then quizzes you on it. Upload old exams and Lemma lines up what you missed.</p>
+      <h1 class="va">Your hardest math topic, <em>animated</em> in minutes.</h1>
+      <h1 class="vb" id="h1b">Finally <em>see</em> why the formula works.</h1>
+      <p class="lede">Pick a topic and watch it built step by step with narration and animation, then check yourself with a 3-question quiz. Watch a free sample, then save a spot for your course.</p>
+      <div class="refnote" id="refnote" hidden>A friend saved you a spot. Join and you both move up the list.</div>
       <div class="proof" id="proof" hidden></div>
       <div class="signup-slot" data-slot="hero"></div>
       <p class="micro"><b>Free to join.</b> No card. One email when your course is ready.</p>
-      <div class="chips">
-        <span class="chip"><b>3</b> free sample lessons below</span>
-        <span class="chip"><b>8–15 min</b> lessons</span>
-        <span class="chip"><b>quiz</b> after every lesson</span>
-      </div>
     </div>
     <div class="vwrap">
-      <video id="heroVid" src="l3.mp4" poster="l3.jpg" controls preload="metadata" playsinline></video>
-      <div class="endcard" id="heroEnd" hidden><div><b>Want this for your course?</b><a class="submit" href="#join" data-cta="hero-end">Get early access</a></div></div>
+      <video id="heroVid" src="l2.mp4" poster="l2.jpg" controls preload="metadata" playsinline></video>
+      <div class="endcard" id="heroEnd" hidden><div><b>Want this for your course?</b><a class="submit" href="#join" data-cta="hero-end">Save my spot</a></div></div>
     </div>
   </section>
 
@@ -197,7 +218,7 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:v
   <div class="player">
     <div>
       <div class="vwrap">
-        <video id="vid" controls preload="metadata" playsinline></video>
+        <video id="vid" controls preload="none" playsinline></video>
         <div class="endcard" id="vidEnd" hidden><div><b>Want this for your course?</b><a class="submit" href="#join" data-cta="lesson-end">Get early access</a></div></div>
       </div>
       <div class="lesson-title" id="ltitle"></div>
@@ -216,37 +237,39 @@ footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:v
     <li><b>Upload old exams</b><span>Lemma finds the topics you missed and lines up lessons and practice for them.</span></li>
   </ol>
 
-  <h2>Planned pricing</h2>
-  <p class="sub">Free while in early access. This is what we expect to launch with.</p>
-  <div class="plans">
-    <div class="plan"><div class="n">Free</div><div class="p">$0</div><ul><li>Browse the lesson library</li><li>Basic quizzes</li></ul></div>
-    <div class="plan feat"><div class="n">Pro</div><div class="p">$19.99<small> / month</small></div><div style="color:var(--muted);font-size:14px">or $119.99 / year</div><ul><li>Upload old exams and homework</li><li>Personal study path</li><li>Custom lessons on request</li><li>Unlimited quizzes and exam mode</li></ul></div>
-    <div class="plan"><div class="n">Finals week</div><div class="p">$9.99<small> / week</small></div><ul><li>Everything in Pro, for cram week</li></ul></div>
-  </div>
-  <div class="founding"><b>Early-access members</b> get first access and a founding price of <b>$49 for the first year</b>.</div>
-
-  <h2 id="join">Get early access</h2>
-  <p class="sub">Join with your email. We build courses in the order people ask for them, and you move up the list for every friend who joins.</p>
+  <h2 id="join">Save your spot</h2>
+  <p class="sub">Pick your course and drop your email. We build courses in the order people ask for them, and every friend who joins moves you up.</p>
   <div class="signup-slot" data-slot="join"></div>
 
   <h2>Questions</h2>
   <div class="faq">
     <details><summary>Which courses will you cover?</summary><p>We're starting with math-heavy college courses: calculus, linear algebra, differential equations, probability and physics. Tell us your course after you join and we'll prioritize the most-requested ones.</p></details>
-    <details><summary>Are the lessons accurate?</summary><p>Every lesson is generated from a script that's checked for correctness, and the math in each worked example is verified. If you spot a mistake, tell us and we fix it.</p></details>
-    <details><summary>How long are lessons?</summary><p>The samples are about 4 minutes. Full lessons run 8 to 15 minutes with chapters, so you can skip to the part you need.</p></details>
+    <details><summary>Are the lessons accurate?</summary><p>Every lesson script is checked for correctness, and we work each example by hand before it ships. If you spot a mistake, tell us and we fix it.</p></details>
+    <details><summary>How long are lessons?</summary><p>The samples run about 3 minutes. Bigger topics are split into chapters, so you can jump straight to the part you need.</p></details>
+    <details><summary>How much will it cost?</summary><p>Free during early access. At launch we expect a free tier, Pro at $19.99/month or $119.99/year, and a $9.99 finals-week pass. Early members can lock in a founding price of $49 for the first year.</p></details>
     <details><summary>What happens when I join?</summary><p>You get one email when lessons for your course are ready. No spam, and you can ask to be removed anytime.</p></details>
   </div>
 
   <footer>Lemma is an independent student project. Lessons are AI-assisted and reviewed for correctness.</footer>
 </div>
 
-<div class="sticky" id="sticky"><span>Animated lessons for your course. Free early access.</span><a class="submit" href="#join" data-cta="sticky">Get early access</a></div>
+<div class="sticky" id="sticky"><span>Free early access</span><div class="signup-slot" data-slot="sticky" style="flex:1;max-width:520px"></div></div>
 
 <template id="tpl-form">
+  <div class="pick"><div class="pick-label">Which course is this for?</div>
+  <div class="course-pick" role="group" aria-label="Course">
+    <button type="button" aria-pressed="false" data-c="calc12">Calc I / II</button>
+    <button type="button" aria-pressed="false" data-c="calc3">Calc III</button>
+    <button type="button" aria-pressed="false" data-c="linalg">Linear algebra</button>
+    <button type="button" aria-pressed="false" data-c="diffeq">Diff eq</button>
+    <button type="button" aria-pressed="false" data-c="prob">Probability / stats</button>
+    <button type="button" aria-pressed="false" data-c="physics">Physics</button>
+    <button type="button" aria-pressed="false" data-c="other">Other</button>
+  </div></div>
   <form class="hero-form" novalidate>
     <input type="email" name="email" required placeholder="you@school.edu" autocomplete="email" aria-label="Email address">
     <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <button class="submit" type="submit">Get early access</button>
+    <button class="submit" type="submit">Save my spot</button>
   </form>
   <div class="err-msg" role="status"></div>
 </template>
@@ -309,32 +332,51 @@ select(cur);
 /* ---- signup ---- */
 const API="https://chimmychonga.tail70e09f.ts.net/lemma/api";
 const PAGE="https://suryacks.github.io/lemma/";
+const COURSES={calc12:"Calc I / II",calc3:"Calc III",linalg:"Linear algebra",diffeq:"Diff eq",prob:"Probability / stats",physics:"Physics",other:"your course"};
+const TOPICS={gradient:[0,"The gradient"],lagrange:[1,"Lagrange multipliers"],gaussian:[2,"The Gaussian integral"]};
 const qs=new URLSearchParams(location.search);
-const REF=(qs.get("ref")||"").slice(0,12);
-const SRC=[qs.get("utm_source"),qs.get("utm_campaign"),qs.get("src")].filter(Boolean).join("/")||(document.referrer?new URL(document.referrer).hostname:"direct");
-let me=null;try{me=JSON.parse(localStorage.getItem("lemma-me")||"null")}catch(e){}
-const save=()=>{try{localStorage.setItem("lemma-me",JSON.stringify(me))}catch(e){}};
-const post=(p,b)=>fetch(API+p,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(b)});
+const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+/* keep a referral code even if the friend comes back later without the link */
+if(qs.get("ref"))ls.set("lemma-ref",qs.get("ref").slice(0,12));
+const REF=ls.get("lemma-ref")||"";
+const SRC=[qs.get("utm_source"),qs.get("utm_campaign"),qs.get("utm_content"),qs.get("src")].filter(Boolean).join("/")||(document.referrer?new URL(document.referrer).hostname:"direct");
+let me=null;try{me=JSON.parse(ls.get("lemma-me")||"null")}catch(e){}
+let course="";
+const save=()=>ls.set("lemma-me",JSON.stringify(me));
+/* text/plain skips the CORS preflight, one less round trip on slow phone connections */
+const post=(p,b)=>fetch(API+p,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(b)});
+
+/* ad-matched topic: ?l=lagrange picks the hero video, the lesson tab and variant B's headline */
+const topic=TOPICS[qs.get("l")];
+if(topic){
+  const id=LESSONS[topic[0]].id;$("heroVid").src=id+".mp4";$("heroVid").poster=id+".jpg";select(topic[0]);
+  $("h1b").replaceChildren(h("em",{},topic[1]),", finally clear.");
+}
+if(REF&&!me)$("refnote").hidden=false;
 
 function shareLink(){return PAGE+"?ref="+encodeURIComponent(me.code)}
+const TIERS=[[1,"Lock the $49 founding year"],[3,"First batch for your course"],[10,"First year free"]];
 function doneCard(){
   const link=h("input",{readonly:true,value:shareLink(),"aria-label":"Your invite link",onclick:e=>e.target.select()});
   const copy=h("button",{class:"btn2",type:"button",onclick:async()=>{try{await navigator.clipboard.writeText(shareLink());copy.textContent="Copied"}catch(e){link.select()}}},"Copy link");
-  const text="I'm getting early access to Lemma: animated, narrated lessons for math courses. Watch a free sample:";
-  const kids=[h("h3",{},"You're on the list."),
+  const cname=COURSES[me.course]||"your course";
+  const text=`Found animated lessons for ${cname==="your course"?"math":cname} that actually make it click. Free early access:`;
+  const n=me.referrals||0,next=TIERS.find(t=>n<t[0]);
+  const shareBtn=navigator.share?h("button",{class:"submit",type:"button",onclick:()=>navigator.share({title:"Lemma",text,url:shareLink()}).catch(()=>{})},"Send to your study group"):
+    h("a",{class:"submit",href:"sms:?&body="+encodeURIComponent(text+" "+shareLink())},"Text your study group");
+  return h("div",{class:"done"},
+    h("h3",{},"You're in."),
     h("div",{class:"pos"},"#"+me.position),
-    h("p",{},me.referrals?`${me.referrals} friend${me.referrals>1?"s":""} joined from your link. Each one moves you up 5 spots.`:"Each friend who joins with your link moves you up 5 spots. Send it to your study group."),
-    h("div",{class:"share"},link,copy,
-      navigator.share?h("button",{class:"btn2",type:"button",onclick:()=>navigator.share({title:"Lemma",text,url:shareLink()}).catch(()=>{})},"Share"):null,
-      h("a",{class:"btn2",href:"sms:?&body="+encodeURIComponent(text+" "+shareLink())},"Text"),
-      h("a",{class:"btn2",target:"_blank",rel:"noopener",href:"https://twitter.com/intent/tweet?text="+encodeURIComponent(text)+"&url="+encodeURIComponent(shareLink())},"Post"))];
-  return h("div",{class:"done"},...kids);
+    h("p",{style:"margin-top:0"},`in line for ${cname}. Each friend who joins with your link moves you up 5 spots.`),
+    h("ul",{class:"tiers"},...TIERS.map(([k,label])=>h("li",{class:n>=k?"got":""},h("b",{},`${k} friend${k>1?"s":""}`),(n>=k?"✓ ":"")+label))),
+    next?h("div",{style:"font-size:13px;color:var(--muted)"},`${n} of ${next[0]} friends joined`,h("div",{class:"bar"},h("i",{style:`width:${Math.min(100,n/next[0]*100)}%`}))):null,
+    h("div",{class:"share",style:"margin-top:14px"},shareBtn,link,copy));
 }
 function profileForm(){
   const f=h("form",{class:"interest",novalidate:true});
   f.innerHTML=`<div class="field full" style="font:500 16px var(--body)">Optional: help us build your course first</div>
     <div class="field"><label for="p-school">School</label><input id="p-school" type="text" placeholder="Your college"></div>
-    <div class="field"><label for="p-courses">Which courses?</label><input id="p-courses" type="text" placeholder="e.g. Calc III, Linear Algebra"></div>
+    <div class="field"><label for="p-courses">Exact course name or number</label><input id="p-courses" type="text" placeholder="e.g. Math 21C, 18.06"></div>
     <fieldset class="field full"><legend>Would you pay for this?</legend><div class="radios">
       <label><input type="radio" name="pay" value="founding"> Yes, $49 founding year</label>
       <label><input type="radio" name="pay" value="pro"> Yes, $19.99/mo</label>
@@ -353,29 +395,46 @@ function profileForm(){
   f.style.marginTop="16px";f.style.maxWidth="760px";
   return f;
 }
+function syncPicks(){document.querySelectorAll(".course-pick button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.c===course)))}
+async function join(email,slot){
+  const body={email,course,ref:REF,src:SRC+"@"+slot,v:window.LEMMA_V||""};
+  const r=await post("/signup",body);const j=await r.json();if(!r.ok)throw j;
+  me=j;save();ls.set("lemma-pending","");
+}
 function renderSlots(){
   document.querySelectorAll(".signup-slot").forEach(slot=>{
     if(me){
-      slot.replaceChildren(doneCard());
+      slot.replaceChildren(slot.dataset.slot==="sticky"?"":doneCard());
       if(slot.dataset.slot==="join"&&!me.profiled)slot.append(profileForm());
       return;
     }
     slot.replaceChildren($("tpl-form").content.cloneNode(true));
+    slot.querySelectorAll(".course-pick button").forEach(b=>b.addEventListener("click",()=>{course=course===b.dataset.c?"":b.dataset.c;syncPicks()}));
+    syncPicks();
     const f=slot.querySelector("form"),err=slot.querySelector(".err-msg"),btn=f.querySelector("button");
     f.addEventListener("submit",async e=>{
       e.preventDefault();const email=f.email.value.trim();
+      if(f.website.value)return;
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(email)){err.textContent="Enter a valid email address.";f.email.focus();return}
-      btn.disabled=true;btn.textContent="Joining…";err.textContent="";
-      try{const r=await post("/signup",{email,ref:REF,src:SRC+"@"+slot.dataset.slot,website:f.website.value});
-        const j=await r.json();if(!r.ok)throw j;
-        me=j;save();renderSlots();document.body.classList.add("joined");$("sticky").classList.remove("show");
-        if(slot.dataset.slot==="hero")$("join").scrollIntoView({behavior:"smooth"});
-      }catch(x){err.textContent=x&&x.error==="bad_email"?"That email doesn't look right.":x&&x.error==="slow_down"?"Too many tries. Wait a few minutes.":"Couldn't reach the server. Try again in a moment.";btn.disabled=false;btn.textContent="Get early access"}
+      btn.disabled=true;btn.textContent="Saving…";err.textContent="";
+      try{await join(email,slot.dataset.slot);renderSlots();upd();
+        /* keep the confirmation where they are; from the sticky bar, bring the card into view */
+        if(slot.dataset.slot==="sticky")$("join").scrollIntoView({behavior:"smooth"});
+      }catch(x){
+        if(x&&x.error==="bad_email"){err.textContent="That email doesn't look right.";btn.disabled=false;btn.textContent="Save my spot";return}
+        if(x&&x.error==="slow_down"){err.textContent="Too many tries. Wait a few minutes.";btn.disabled=false;btn.textContent="Save my spot";return}
+        /* server unreachable: keep the signup and retry on the next visit */
+        ls.set("lemma-pending",JSON.stringify({email,course,slot:slot.dataset.slot}));
+        slot.replaceChildren(h("div",{class:"done"},h("h3",{},"Got it."),h("p",{},"We saved your email and will confirm your spot shortly. Keep this page bookmarked to see your place in line.")));
+      }
     });
   });
 }
 renderSlots();
-if(me&&me.code)fetch(API+"/me?code="+encodeURIComponent(me.code)).then(r=>r.ok?r.json():null).then(j=>{if(j){me={...me,...j};save();renderSlots()}}).catch(()=>{});
+(async()=>{
+  try{const p=JSON.parse(ls.get("lemma-pending")||"null");if(p&&!me){course=p.course||"";await join(p.email,p.slot+"-retry");renderSlots();upd()}}catch(e){}
+  if(me&&me.code)fetch(API+"/me?code="+encodeURIComponent(me.code)).then(r=>r.ok?r.json():null).then(j=>{if(j){me={...me,...j};save();renderSlots()}}).catch(()=>{});
+})();
 
 /* CTAs focus the nearest email box */
 document.addEventListener("click",e=>{const a=e.target.closest("a[data-cta]");if(!a)return;e.preventDefault();
@@ -384,13 +443,13 @@ document.addEventListener("click",e=>{const a=e.target.closest("a[data-cta]");if
 [["heroVid","heroEnd"],["vid","vidEnd"]].forEach(([v,c])=>{const V=$(v);V.addEventListener("ended",()=>{if(!me)$(c).hidden=false});V.addEventListener("play",()=>$(c).hidden=true)});
 /* sticky bar after the hero, hidden near the form or once joined */
 const stick=$("sticky");let pastHero=false,atJoin=false;
-const upd=()=>stick.classList.toggle("show",pastHero&&!atJoin&&!me);
+function upd(){stick.classList.toggle("show",pastHero&&!atJoin&&!me)}
 new IntersectionObserver(([e])=>{pastHero=!e.isIntersecting&&e.boundingClientRect.top<0;upd()}).observe($("top"));
 new IntersectionObserver(([e])=>{atJoin=e.isIntersecting;upd()},{rootMargin:"0px 0px -20% 0px"}).observe(document.querySelector('[data-slot="join"]'));
 /* social proof once the list is big enough to be persuasive */
 fetch(API+"/stats").then(r=>r.json()).then(j=>{if(j.signups>=25){$("proof").textContent=`${j.signups.toLocaleString()} students on the early-access list`;$("proof").hidden=false}}).catch(()=>{});
-/* anonymous page-view count, for conversion rate */
-try{if(!sessionStorage.getItem("lemma-v")){sessionStorage.setItem("lemma-v","1");navigator.sendBeacon?navigator.sendBeacon(API+"/view",new Blob(["{}"],{type:"text/plain"})):post("/view",{})}}catch(e){}
+/* anonymous page-view count per variant, for conversion rate */
+try{if(!sessionStorage.getItem("lemma-viewed")){sessionStorage.setItem("lemma-viewed","1");const b=JSON.stringify({v:window.LEMMA_V||""});navigator.sendBeacon?navigator.sendBeacon(API+"/view",new Blob([b],{type:"text/plain"})):post("/view",JSON.parse(b))}}catch(e){}
 </script>
 </body>
 </html>
